@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * The type Order.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,12 @@ public class Order {
     private Double orderPrice;
     private Double finalOrderPrice;
 
+    /**
+     * Apply voucher boolean.
+     *
+     * @param voucher the voucher
+     * @return the boolean
+     */
     public boolean applyVoucher(String voucher) {
         this.applyVoucher(voucher);
         // Code to apply the voutcher

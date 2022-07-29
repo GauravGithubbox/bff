@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+/**
+ * The type Product.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

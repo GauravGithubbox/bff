@@ -15,13 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Order details controller.
+ */
 @ComponentScan
 @RestController
 public class OrderDetailsController {
 
+    /**
+     * The Order searchimpl.
+     */
     @Autowired
     OrderSearchimpl orderSearchimpl;
 
+    /**
+     * Search order details by id response entity.
+     *
+     * @param orderId the order id
+     * @return the response entity
+     */
     @GetMapping("/order-details/{orderId}")
 //    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Order> searchOrderDetailsById(@PathVariable String orderId)
@@ -34,6 +46,16 @@ public class OrderDetailsController {
         else return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Search order all response entity.
+     *
+     * @param orderDate    the order date
+     * @param orderNumber  the order number
+     * @param customerName the customer name
+     * @param deliveryMode the delivery mode
+     * @param orderStatus  the order status
+     * @return the response entity
+     */
     @GetMapping("/allOrders")
     //  @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<Order>> searchOrderAll(@RequestParam(value = "orderDate" ,required = false)String orderDate,
@@ -56,6 +78,12 @@ public class OrderDetailsController {
         else return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Cancel order by id response entity.
+     *
+     * @param orderId the order id
+     * @return the response entity
+     */
     @GetMapping("/order/cancel/{orderId}")
     //@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> cancelOrderById(@PathVariable String orderId)
@@ -68,6 +96,13 @@ public class OrderDetailsController {
         else return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Search order all response entity.
+     *
+     * @param voucher the voucher
+     * @param orderID the order id
+     * @return the response entity
+     */
     @GetMapping("order/applyVoucher")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> searchOrderAll(@RequestParam(value = "voucher" ,required = true)String voucher,

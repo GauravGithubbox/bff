@@ -11,6 +11,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http.authorizeRequests()
                .antMatchers("/").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+
+               .antMatchers("/order-details").permitAll()
+               .antMatchers("/allOrders").permitAll()
+               .antMatchers("/order/cancel/").permitAll()
+               .antMatchers("/order/applyVoucher").permitAll()
 /*
                .antMatchers("/order-details").hasAuthority("USER")
                .antMatchers("/allOrders").hasAuthority("USER")
