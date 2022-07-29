@@ -6,6 +6,7 @@ import ca.loblaw.bff.service.impl.OrderSearchimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +22,8 @@ public class OrderDetailsController {
     @Autowired
     OrderSearchimpl orderSearchimpl;
 
-    @GetMapping("/getOrderDetailsByOrderID/{orderId}")
-   // @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/order-details/{orderId}")
+//    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Order> searchOrderDetailsById(@PathVariable String orderId)
     {
         Order currentorder = orderSearchimpl.getOrderDetailsbyID(orderId);
@@ -30,21 +31,18 @@ public class OrderDetailsController {
         {
             return ResponseEntity.ok(currentorder);
         }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/searchOrderAll")
-   // @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<List<Order>> searchOrderAll(
-            @RequestParam(value = "orderDate" ,required = false)String orderDate,
-            @RequestParam(value = "orderNumber",required = false)String orderNumber,
-            @RequestParam(value = "customerName",required = false)String customerName,
-            @RequestParam(value = "deliveryMode",required = false)String deliveryMode,
-            @RequestParam(value = "orderStatus",required = false)String orderStatus
-           ){
-
+    @GetMapping("/allOrders")
+    //  @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<List<Order>> searchOrderAll(@RequestParam(value = "orderDate" ,required = false)String orderDate,
+                                                      @RequestParam(value = "orderNumber",required = false)String orderNumber,
+                                                      @RequestParam(value = "customerName",required = false)String customerName,
+                                                      @RequestParam(value = "deliveryMode",required = false)String deliveryMode,
+                                                      @RequestParam(value = "orderStatus",required = false)String orderStatus
+    )
+    {
         List<Order> orderList=new ArrayList<>();
         orderList.addAll(List.of(orderSearchimpl.searchOrderByDate(orderDate)));
         orderList.addAll(List.of(orderSearchimpl.searchOrderByOrderNo(orderNumber)));
@@ -55,13 +53,11 @@ public class OrderDetailsController {
         {
             return ResponseEntity.ok(orderList);
         }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/cancelOrderById/{orderId}")
-   // @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/order/cancel/{orderId}")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> cancelOrderById(@PathVariable String orderId)
     {
         String status= orderSearchimpl.cancelOrderById(orderId);
@@ -69,15 +65,13 @@ public class OrderDetailsController {
         {
             return ResponseEntity.ok(status);
         }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/applyVoucherToOrder")
-   // @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("order/applyVoucher")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> searchOrderAll(@RequestParam(value = "voucher" ,required = true)String voucher,
-                                                      @RequestParam(value = "orderID",required = true)String orderID
+                                                 @RequestParam(value = "orderID",required = true)String orderID
     )
     {
         String status= orderSearchimpl.applyVoucher(voucher,orderID);
@@ -85,9 +79,7 @@ public class OrderDetailsController {
         {
             return ResponseEntity.ok(status);
         }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        else return ResponseEntity.notFound().build();
     }
 
 

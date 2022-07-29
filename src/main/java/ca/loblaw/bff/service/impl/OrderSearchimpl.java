@@ -19,7 +19,7 @@ public class OrderSearchimpl implements OrderSearch {
 
     @Override
     public Order getOrderDetailsbyID(String orderId) {
-                return new Order();
+        return new Order();
     }
 
     @Override
@@ -60,12 +60,11 @@ public class OrderSearchimpl implements OrderSearch {
 
     @Override
     public String applyVoucher(String voucher,String orderId) {
-     /*     Order o=this.getOrderDetailsbyID(orderId);
-            o.applyVoucher(voucher);
-            return "Success";
-     */
+        //   Order o=this.getOrderDetailsbyID(orderId);
+        //   o.applyVoucher(voucher);
+        //   return "Success";
 
-        String url = "http://localhost:8080/applyvoucher/{urlParameter}?queryParameter= {queryParameter}";
+        String url = "http://localhost:8080/restServiceForApplyingVoucherToOrder/{urlParameter}?queryParameter= {queryParameter}";
         RestTemplate template = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity requestEntity = new HttpEntity<>(headers);
@@ -78,8 +77,12 @@ public class OrderSearchimpl implements OrderSearch {
     }
     @Override
     public String cancelOrderById(String orderId) {
-String confirmation= restTemplateForOrder.getForObject("http://localhost:8080/CancleOrder"+orderId, String.class);
-            return confirmation;
+        /*Order o=this.getOrderDetailsbyID(orderId);
+        o.setOrderStatus("Cancel");
+        return "Success";*/
+        String confirmation= restTemplateForOrder.getForObject("http://localhost:8080/CancleOrderCore"+orderId, String.class);
+        return confirmation;
     }
+
 
 }
